@@ -1,22 +1,36 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Forex Pro Bot</title>
 <style>
-body{background:#10151f;color:white;font-family:Arial;padding:15px}
-h2{color:#e9bd55;text-align:center}
-.card{background:#1d2939;padding:15px;margin:12px 0;border-radius:12px}
-select,button{padding:12px;border-radius:8px;width:100%;margin-top:10px}
-button{background:#d9ad45;border:0;font-weight:bold}
-.signal{text-align:center;font-size:25px;color:#aaa}
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#fff;font-family:Arial,sans-serif;padding:14px}
+h2{color:#e8bd57;text-align:center;letter-spacing:1px}
+.card{background:#172235;border:1px solid #293951;border-radius:12px;padding:14px;margin:12px 0}
+label{display:block;color:#aab8cb;font-size:13px;margin:10px 0 6px}
+select,button{width:100%;padding:13px;border-radius:8px;border:1px solid #40516b;background:#101b2d;color:white;font-size:15px}
+button{background:#d6ad4d;color:#111;font-weight:bold;border:0;margin-top:12px}
+.row{display:flex;gap:10px}
+.row>*{flex:1;min-width:0}
+.price{font-size:23px;font-weight:bold;color:#e9c66d}
+.small{font-size:12px;color:#91a2b9}
+.signal{text-align:center;font-size:28px;font-weight:bold;padding:14px}
+.up{color:#16d995}.down{color:#ff626f}
+.chart{height:190px;width:100%;background:#0c1727;border-radius:8px}
+.status{text-align:center;color:#e9c66d;font-size:13px}
+.history{font-size:13px;color:#b9c6d7;line-height:2}
 </style>
 </head>
 <body>
+
 <h2>FOREX PRO BOT</h2>
+<div class="status" id="status">● DASHBOARD READY</div>
+
 <div class="card">
-<label>Select Forex Pair</label>
+<label>SELECT FOREX PAIR</label>
 <select id="pair">
 <option>EUR/USD</option>
 <option>GBP/USD</option>
@@ -27,17 +41,89 @@ button{background:#d9ad45;border:0;font-weight:bold}
 <option>USD/CAD</option>
 <option>EUR/JPY</option>
 </select>
-<label>Timeframe</label>
+
+<div class="row">
+<div>
+<label>TIMEFRAME</label>
 <select id="tf">
-<option>1 Minute</option>
-<option>5 Minutes</option>
-<option>15 Minutes</option>
-<option>1 Hour</option>
+<option value="1">1 Minute</option>
+<option value="5" selected>5 Minutes</option>
+<option value="15">15 Minutes</option>
+<option value="30">30 Minutes</option>
+<option value="60">1 Hour</option>
+<option value="240">4 Hours</option>
+<option value="D">1 Day</option>
 </select>
-<button onclick="alert('Live data connection is not configured yet')">START ANALYSIS</button>
 </div>
+<div>
+<label>CHART STYLE</label>
+<select id="style">
+<option>Candlestick</option>
+<option>Line</option>
+</select>
+</div>
+</div>
+</div>
+
 <div class="card">
-<div class="signal" id="signal">WAITING FOR DATA</div>
+<div class="small">LIVE MARKET PRICE</div>
+<div class="price" id="price">DATA NOT CONNECTED</div>
+<div class="small" id="change">Waiting for live data source</div>
 </div>
+
+<div class="card">
+<label>MARKET CHART</label>
+<div id="chart" class="chart"></div>
+<div class="small">Chart will appear after market data connection.</div>
+</div>
+
+<div class="card">
+<div class="small">ANALYSIS SIGNAL</div>
+<div class="signal" id="signal">WAITING</div>
+<div class="small" style="text-align:center" id="confidence">Confidence: Not available</div>
+</div>
+
+<div class="card">
+<div class="row">
+<button id="start" onclick="startBot()">START BOT</button>
+<button id="stop" onclick="stopBot()" style="background:#bd5360;color:white">STOP BOT</button>
+</div>
+<div class="status" id="botstatus">BOT OFF</div>
+</div>
+
+<div class="card">
+<b>INDICATORS</b>
+<div class="history">
+RSI: Waiting for data<br>
+MACD: Waiting for data<br>
+EMA: Waiting for data<br>
+Trend: Waiting for data<br>
+Volume: Waiting for data
+</div>
+</div>
+
+<div class="card">
+<b>SIGNAL HISTORY</b>
+<div class="history" id="history">No signals yet.</div>
+</div>
+
+<div class="small" style="text-align:center;padding:15px">
+FOREX PRO BOT · LIVE DATA CONNECTION PENDING
+</div>
+
+<script>
+let running=false;
+function startBot(){
+running=true;
+document.getElementById("botstatus").innerText="BOT ON";
+document.getElementById("status").innerText="● READY - DATA CONNECTION PENDING";
+}
+function stopBot(){
+running=false;
+document.getElementById("botstatus").innerText="BOT OFF";
+document.getElementById("status").innerText="● DASHBOARD STOPPED";
+document.getElementById("signal").innerText="WAITING";
+}
+</script>
 </body>
 </html>
